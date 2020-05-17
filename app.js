@@ -63,10 +63,12 @@ var cardsChosen = [];
 var cardsChosenId = [];
 var cardsWon = [];
 
+document.getElementById("resetBtn").addEventListener("click", resetGame);
+
 
 //Create board
 function createBoard() {
-	for (let i = 0; i <cardArray.length; i++) {
+	for (let i = 0; i < cardArray.length; i++) {
 		var card = document.createElement('img');
 		card.setAttribute('data-id', i);
 		card.setAttribute('src', 'img/question.gif');
@@ -82,14 +84,21 @@ function checkForMatch() {
 	const firstChoiceId = cardsChosenId[0];
 	const secondChoiceId = cardsChosenId[1];
 
+	// If it's the EXACT same card, don't count as a win
 	if (cardsChosen[0] === cardsChosen[1] && cardsChosenId[0] === cardsChosenId[1]) {
 		cards[firstChoiceId].setAttribute('src', 'img/question.gif');
 		cards[secondChoiceId].setAttribute('src', 'img/question.gif');
 		alert('You picked the same card. :(');
+		
+	// If it's a valid match, set background, log winners
 	} else if (cardsChosen[0] === cardsChosen[1]) {
 		alert('You found a match!');
 		cards[firstChoiceId].setAttribute('src', 'img/coin.png');
 		cards[secondChoiceId].setAttribute('src', 'img/coin.png');
+		cardsWon.push(firstChoiceId, secondChoiceId);
+		console.log('Cards won: ' + cardsWon);
+		
+	//Otherwise, reset
 	} else {
 		cards[firstChoiceId].setAttribute('src', 'img/question.gif');
 		cards[secondChoiceId].setAttribute('src', 'img/question.gif');
@@ -115,17 +124,20 @@ function flipCard() {
 		console.log('Card chosen: ' + cardArray[cardId].name + ' Card chosen ID: ' + cardId );
 		console.log('Cards chosen: ' + cardsChosen);
 		console.log('Cards chosen ID: ' + cardsChosenId);
-		console.log('Cards won: ' + cardsWon);
 		console.log(this.getAttribute('src'));
 		this.setAttribute('src', cardArray[cardId].img);
 	}
 	
-	// TO DO: make it so you can't click on a card that has been clicked already
-
-	
 	if (cardsChosen.length === 2) {
 		setTimeout(checkForMatch, 500);
 	}
+}
+	
+function resetGame() {
+	cardsChosen = [];
+	cardsChosenId = [];
+	cardsWon = [];
+	createBoard();
 }
 
 createBoard();
