@@ -68,6 +68,9 @@ document.getElementById("resetBtn").addEventListener("click", resetGame);
 
 //Create board
 function createBoard() {
+	//make sure grid is empty
+	grid.innerHTML = null;
+	
 	for (let i = 0; i < cardArray.length; i++) {
 		var card = document.createElement('img');
 		card.setAttribute('data-id', i);
@@ -122,9 +125,6 @@ function flipCard() {
 		cardsChosen.push(cardArray[cardId].name);
 		cardsChosenId.push(cardId);
 		console.log('Card chosen: ' + cardArray[cardId].name + ' Card chosen ID: ' + cardId );
-		console.log('Cards chosen: ' + cardsChosen);
-		console.log('Cards chosen ID: ' + cardsChosenId);
-		console.log(this.getAttribute('src'));
 		this.setAttribute('src', cardArray[cardId].img);
 	}
 	
@@ -137,6 +137,7 @@ function resetGame() {
 	cardsChosen = [];
 	cardsChosenId = [];
 	cardsWon = [];
+	resultDisplay.textContent = cardsWon.length;
 	createBoard();
 }
 
